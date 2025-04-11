@@ -1,20 +1,17 @@
-# Bu dosya zaten kali.sh içinde tanımlı
+#!/data/data/com.termux/files/usr/bin/bash
 
-# ZexKali Distro dosyasının içeriği
-DISTRO_NAME="ZexKali"
-DISTRO_COMMENT="ZexKali Rootless Custom Kali Linux"
+# chmod +x komutu ile dosya çalıştırılabilir hale getiriliyor
+chmod +x zexkali.sh
 
-TARBALL_URL['aarch64']="https://kali.download/nethunter-images/current/rootfs/kalifs-arm64-full.tar.xz"
-TARBALL_SHA256['aarch64']="SKIP"
+# ZexKali Setup Başlangıcı
+clear
+echo "ZexKali kurulumu başlatılıyor..."
 
-TARBALL_URL['arm']="https://kali.download/nethunter-images/current/rootfs/kalifs-armhf-full.tar.xz"
-TARBALL_SHA256['arm']="SKIP"
+# Özel distroyu indirme ve kurma
+proot-distro install zexkali
 
-DISTRO_ARCH="aarch64"
+# ZexKali kurulumu tamamlandığında mesaj
+echo "ZexKali kurulumu tamamlandı!"
 
-DISTRO_ENTER="env -i HOME=/root TERM=$TERM LANG=$LANG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash --login"
-
-# chmod +x
-chmod +x kali.sh
-chmod +x nethunter-fix.sh
-chmod +x ~/.proot-distro/distro/zexkali.sh
+# Çıkış
+exit 0
