@@ -1,12 +1,31 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Renk kodları
+# Renk tanımları
 red='\033[1;31m'
 green='\033[1;32m'
 yellow='\033[1;33m'
 blue='\033[1;34m'
 cyan='\033[1;36m'
 reset='\033[0m'
+
+# Özel ZexKali distro yapılandırması
+mkdir -p ~/.proot-distro/distro
+
+cat > ~/.proot-distro/distro/zexkali.sh << 'EOF'
+DISTRO_NAME="ZexKali"
+DISTRO_COMMENT="ZexKali Rootless Custom Kali Linux"
+
+TARBALL_URL['aarch64']="https://kali.download/nethunter-images/current/rootfs/kalifs-arm64-full.tar.xz"
+TARBALL_SHA256['aarch64']="SKIP"
+
+TARBALL_URL['arm']="https://kali.download/nethunter-images/current/rootfs/kalifs-armhf-full.tar.xz"
+TARBALL_SHA256['arm']="SKIP"
+
+DISTRO_ARCH="aarch64"
+
+DISTRO_ENTER="env -i HOME=/root TERM=$TERM LANG=$LANG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash --login"
+
+EOF
 
 # Banner
 clear
@@ -28,39 +47,35 @@ echo ""
 
 read -p "$(echo -e ${yellow}Seçiminizi yapınız [1-3]:${reset} ) " choice
 
-# Temel kurulum
-pkg update -y && pkg upgrade -y
-pkg install -y wget curl proot-distro tar
+# Ortak işlemler
+common_setup() {
+    echo -e "${cyan}[+] Bağımlılıklar yükleniyor...${reset}"
+    pkg update -y && pkg upgrade -y
+    pkg install -y wget curl proot-distro tar
+}
 
-# PRoot distro konfig klasörü
-mkdir -p ~/.proot-distro/distro
-
-# Kali.sh oluştur
-cat > ~/.proot-distro/distro/kali.sh << 'EOF'
-DISTRO_NAME="Kali Linux"
-
-TARBALL_URL['aarch64']="__REPLACE_ME__"
-TARBALL_SHA256['aarch64']="SKIP"
-
-DISTRO_ARCH="aarch64"
-EOF
-
-# Linkleri belirle
-if [ "$choice" = "1" ]; then
+case $choice in
+  1)
     echo -e "${cyan}[+] Full ZexKali kuruluyor...${reset}"
-    sed -i 's|__REPLACE_ME__|https://kali.download/nethunter-images/current/rootfs/kalifs-arm64-full.tar.xz|' ~/.proot-distro/distro/kali.sh
-elif [ "$choice" = "2" ]; then
+    common_setup
+    pkg install -y git python python2 ruby nmap hydra metasploit
+    proot-distro install zexkali
+    echo -e "${green}[✓] Full ZexKali kuruldu! Giriş için: proot-distro login zexkali${reset}"
+    ;;
+  2)
     echo -e "${cyan}[+] Mini ZexKali kuruluyor...${reset}"
-    sed -i 's|__REPLACE_ME__|https://kali.download/nethunter-images/current/rootfs/kalifs-arm64-minimal.tar.xz|' ~/.proot-distro/distro/kali.sh
-elif [ "$choice" = "3" ]; then
+    common_setup
+    pkg install -y git python nmap hydra
+    proot-distro install zexkali
+    echo -e "${green}[✓] Mini ZexKali kuruldu! Giriş için: proot-distro login zexkali${reset}"
+    ;;
+  3)
     echo -e "${cyan}[+] Nano ZexKali kuruluyor...${reset}"
-    sed -i 's|__REPLACE_ME__|https://kali.download/nethunter-images/current/rootfs/kalifs-arm64-nano.tar.xz|' ~/.proot-distro/distro/kali.sh
-else
+    common_setup
+    proot-distro install zexkali
+    echo -e "${green}[✓] Nano ZexKali kuruldu! Giriş için: proot-distro login zexkali${reset}"
+    ;;
+  *)
     echo -e "${red}[-] Geçersiz seçim. Kurulum iptal edildi.${reset}"
-    exit 1
-fi
-
-# Kali'yi kur
-proot-distro install kali-linux
-echo -e "${green}[✓] ZexKali kurulumu tamamlandı.${reset}"
-echo -e "${yellow}Giriş yapmak için:${reset} ${cyan}proot-distro login kali-linux${reset}"
+    ;;
+esac
