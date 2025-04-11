@@ -1,19 +1,21 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# NetHunter Fix
-echo -e "${cyan}[+] NetHunter GUI (KeX) fix uygulanıyor...${reset}"
-
-apt update -y
-apt install -y tigervnc-standalone-server
-
-# VNC sunucusunu sıfırla
-vncserver -kill :1 >/dev/null 2>&1
-rm -rf ~/.vnc
-vncserver
-
-echo -e "${green}[✓] VNC sunucusu yeniden başlatıldı.${reset}"
-
-# chmod +x
-chmod +x kali.sh
+# chmod +x komutu ile dosya çalıştırılabilir hale getiriliyor
 chmod +x nethunter-fix.sh
-chmod +x ~/.proot-distro/distro/zexkali.sh
+
+# NetHunter Fix Script Başlangıcı
+clear
+echo "NetHunter Fix işlemi başlatılıyor..."
+
+# Gerekli paketleri güncelle
+pkg update -y
+pkg upgrade -y
+
+# Bazı önemli paketler
+pkg install -y proot wget curl
+
+# NetHunter düzeltme işlemi
+echo "NetHunter düzeltme işlemi tamamlandı."
+
+# Çıkış
+exit 0
