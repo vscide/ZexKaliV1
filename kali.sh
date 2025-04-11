@@ -60,20 +60,20 @@ case $choice in
     common_setup
     pkg install -y git python python2 ruby nmap hydra metasploit
     proot-distro install zexkali
-    echo -e "${green}[✓] Full ZexKali kuruldu! Giriş için: proot-distro login zexkali${reset}"
+    echo -e "${green}[✓] Full ZexKali kuruldu! Giriş için: nethunter${reset}"
     ;;
   2)
     echo -e "${cyan}[+] Mini ZexKali kuruluyor...${reset}"
     common_setup
     pkg install -y git python nmap hydra
     proot-distro install zexkali
-    echo -e "${green}[✓] Mini ZexKali kuruldu! Giriş için: proot-distro login zexkali${reset}"
+    echo -e "${green}[✓] Mini ZexKali kuruldu! Giriş için: nethunter${reset}"
     ;;
   3)
     echo -e "${cyan}[+] Nano ZexKali kuruluyor...${reset}"
     common_setup
     proot-distro install zexkali
-    echo -e "${green}[✓] Nano ZexKali kuruldu! Giriş için: proot-distro login zexkali${reset}"
+    echo -e "${green}[✓] Nano ZexKali kuruldu! Giriş için: nethunter${reset}"
     ;;
   *)
     echo -e "${red}[-] Geçersiz seçim. Kurulum iptal edildi.${reset}"
