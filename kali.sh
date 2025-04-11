@@ -37,7 +37,7 @@ mkdir -p ~/.proot-distro/distro
 
 # Kali.sh oluştur
 cat > ~/.proot-distro/distro/kali.sh << 'EOF'
-DISTRO_NAME="ZexKali"
+DISTRO_NAME="Kali Linux"
 
 TARBALL_URL['aarch64']="__REPLACE_ME__"
 TARBALL_SHA256['aarch64']="SKIP"
@@ -61,6 +61,6 @@ else
 fi
 
 # Kali'yi kur
-proot-distro install kali
+proot-distro install kali-linux
 echo -e "${green}[✓] ZexKali kurulumu tamamlandı.${reset}"
-echo -e "${yellow}Giriş yapmak için:${reset} ${cyan}proot-distro login kali${reset}"
+echo -e "${yellow}Giriş yapmak için:${reset} ${cyan}proot-distro login kali-linux${reset}"
