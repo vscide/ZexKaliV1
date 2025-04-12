@@ -1,8 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# chmod +x komutu ile dosya çalıştırılabilir hale getiriliyor
-chmod +x kali.sh
-
 # Renk tanımları
 red='\033[1;31m'
 green='\033[1;32m'
@@ -11,7 +8,7 @@ blue='\033[1;34m'
 cyan='\033[1;36m'
 reset='\033[0m'
 
-# Özel ZexKali distro yapılandırması
+# ZexKali distro yapılandırması
 mkdir -p ~/.proot-distro/distro
 
 cat > ~/.proot-distro/distro/zexkali.sh << 'EOF'
@@ -27,7 +24,6 @@ TARBALL_SHA256['arm']="SKIP"
 DISTRO_ARCH="aarch64"
 
 DISTRO_ENTER="env -i HOME=/root TERM=$TERM LANG=$LANG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash --login"
-
 EOF
 
 # Banner
@@ -50,7 +46,7 @@ echo ""
 
 read -p "$(echo -e ${yellow}Seçiminizi yapınız [1-3]:${reset} ) " choice
 
-# Ortak işlemler
+# Ortak kurulum
 common_setup() {
     echo -e "${cyan}[+] Bağımlılıklar yükleniyor...${reset}"
     pkg update -y && pkg upgrade -y
@@ -63,20 +59,20 @@ case $choice in
     common_setup
     pkg install -y git python python2 ruby nmap hydra metasploit
     proot-distro install zexkali
-    echo -e "${green}[✓] Full ZexKali kuruldu! Giriş için: proot-distro login zexkali${reset}"
+    echo -e "${green}[✓] Full ZexKali kuruldu!${reset}"
     ;;
   2)
     echo -e "${cyan}[+] Mini ZexKali kuruluyor...${reset}"
     common_setup
     pkg install -y git python nmap hydra
     proot-distro install zexkali
-    echo -e "${green}[✓] Mini ZexKali kuruldu! Giriş için: proot-distro login zexkali${reset}"
+    echo -e "${green}[✓] Mini ZexKali kuruldu!${reset}"
     ;;
   3)
     echo -e "${cyan}[+] Nano ZexKali kuruluyor...${reset}"
     common_setup
     proot-distro install zexkali
-    echo -e "${green}[✓] Nano ZexKali kuruldu! Giriş için: proot-distro login zexkali${reset}"
+    echo -e "${green}[✓] Nano ZexKali kuruldu!${reset}"
     ;;
   *)
     echo -e "${red}[-] Geçersiz seçim. Kurulum iptal edildi.${reset}"
