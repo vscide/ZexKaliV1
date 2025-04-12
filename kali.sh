@@ -39,7 +39,7 @@ echo -e "${yellow}              ZexKali Terminal Installer"
 echo -e "${reset}"
 
 # Menü
-echo -e "${green}[1]${reset} Full ZexKali ${blue}- Tüm araçlarla deluxe kurulum"
+echo -e "${green}[1]${reset} Full ZexKali ${blue}- Tüm araçlarla ve NetHunter ile deluxe kurulum"
 echo -e "${green}[2]${reset} Mini ZexKali ${blue}- Hafif, hızlı, işlevsel"
 echo -e "${green}[3]${reset} Nano ZexKali ${blue}- Sadece temel sistem"
 echo ""
@@ -57,22 +57,30 @@ case $choice in
   1)
     echo -e "${cyan}[+] Full ZexKali kuruluyor...${reset}"
     common_setup
-    pkg install -y git python python2 ruby nmap hydra metasploit
+    pkg install -y git python ruby
     proot-distro install zexkali
-    echo -e "${green}[✓] Full ZexKali kuruldu!${reset}"
+
+    echo -e "${cyan}[+] NetHunter kuruluyor...${reset}"
+    termux-setup-storage
+    pkg install -y wget
+    wget -O install-nethunter-termux https://offs.ec/2MceZWr
+    chmod +x install-nethunter-termux
+    ./install-nethunter-termux
+
+    echo -e "${green}[✓] Full ZexKali ve NetHunter kurulumu tamamlandı!${reset}"
     ;;
   2)
     echo -e "${cyan}[+] Mini ZexKali kuruluyor...${reset}"
     common_setup
-    pkg install -y git python nmap hydra
+    pkg install -y git python
     proot-distro install zexkali
-    echo -e "${green}[✓] Mini ZexKali kuruldu!${reset}"
+    echo -e "${green}[✓] Mini ZexKali kurulumu tamamlandı!${reset}"
     ;;
   3)
     echo -e "${cyan}[+] Nano ZexKali kuruluyor...${reset}"
     common_setup
     proot-distro install zexkali
-    echo -e "${green}[✓] Nano ZexKali kuruldu!${reset}"
+    echo -e "${green}[✓] Nano ZexKali kurulumu tamamlandı!${reset}"
     ;;
   *)
     echo -e "${red}[-] Geçersiz seçim. Kurulum iptal edildi.${reset}"
